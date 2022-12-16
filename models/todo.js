@@ -1,7 +1,5 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Todo extends Model {
     /**
@@ -10,20 +8,25 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-       Todo.belongsTo(models.User)
       // define association here
+      Todo.belongsTo(models.User, {
+        foreignKey: "executor",
+      });
     }
   }
-  Todo.init({
-    title: DataTypes.STRING,
-    complete: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false
+  Todo.init(
+    {
+      title: DataTypes.STRING,
+      complete: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
+      executor: DataTypes.INTEGER,
     },
-    executor: DataTypes.INTEGER
-  }, {
-    sequelize,
-    modelName: 'Todo',
-  });
+    {
+      sequelize,
+      modelName: "Todo",
+    }
+  );
   return Todo;
 };

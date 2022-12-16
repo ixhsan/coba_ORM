@@ -5,22 +5,22 @@ var { Response } = require("../helpers/util");
 
 router
   .route("/")
-  /* GET users listing. */
+  /* GET todos listing. */
   .get(async function (req, res, next) {
     try {
-      const users = await models.User.findAll({
-        include: models.Todo
+      const todos = await models.Todo.findAll({
+        include: models.User
       });
-      res.send(new Response(users));
+      res.send(new Response(todos));
     } catch (error) {
       res.status(500).json(new Response(error, false));
     }
   })
-  /* Create a user. */
+  /* Create a todo. */
   .post(async function (req, res, next) {
     try {
-      const user = await models.User.create(req.body);
-      res.send(new Response(user));
+      const todo = await models.Todo.create(req.body);
+      res.send(new Response(todo));
     } catch (error) {
       res.status(500).json(new Response(error, false));
     }
@@ -28,30 +28,30 @@ router
 
   router
   .route('/:id')
-  /* Update a user. */
+  /* Update a todo. */
   .put(async function (req, res, next) {
     try {
-      const user = await models.User.update(req.body, {
+      const todo = await models.Todo.update(req.body, {
         where: {
           id: req.params.id,
         },
         returning: true,
         plain: true
       });
-      res.send(new Response(user[1]));
+      res.send(new Response(todo[1]));
     } catch (error) {
       res.status(500).json(new Response(error, false));
     }
   })
-  /* Delete a user. */
+  /* Delete a todo. */
   .delete(async function (req, res, next) {
     try {
-      const user = await models.User.destroy({
+      const todo = await models.Todo.destroy({
         where: {
           id: req.params.id,
         }
       });
-      res.send(new Response(user));
+      res.send(new Response(todo));
     } catch (error) {
       res.status(500).json(new Response(error, false));
     }
